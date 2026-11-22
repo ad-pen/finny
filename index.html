@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finny: the student manual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..700,0..100,0..1&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#132a22;
+    --ink-soft:#4a6358;
+    --paper:#f4f7f3;
+    --paper-2:#e7eee7;
+    --rule:#c9d8cc;
+    --pine:#0b5e35;
+    --mint:#9ddfae;
+    --coin:#f6c83f;
+    --berry:#9c2f52;
+    --measure:66ch;
+    --radius:3px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Instrument Sans",system-ui,sans-serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+  h1,h2,h3{
+    font-family:Fraunces,Georgia,serif;
+    font-variation-settings:"SOFT" 60,"WONK" 1;
+    line-height:1.1;
+    margin:0;
+    font-weight:600;
+  }
+  a{color:var(--pine);text-decoration-thickness:1px;text-underline-offset:3px}
+  a:hover{color:var(--ink)}
+  :focus-visible{outline:2.5px solid var(--pine);outline-offset:3px;border-radius:2px}
+
+  .skip{position:absolute;left:-9999px;top:0;background:var(--ink);color:var(--paper);padding:.6rem 1rem;z-index:50}
+  .skip:focus{left:.5rem;top:.5rem}
+
+  /* ---------- top bar ---------- */
+  .bar{
+    position:sticky;top:0;z-index:20;
+    display:flex;gap:1rem;align-items:center;flex-wrap:wrap;
+    padding:.7rem clamp(1rem,4vw,2.5rem);
+    background:color-mix(in srgb,var(--paper) 88%,transparent);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--rule);
+  }
+  .mark{font-family:Fraunces,serif;font-variation-settings:"SOFT" 80,"WONK" 1;font-size:1.35rem;font-weight:600;letter-spacing:-.01em}
+  .mark span{color:var(--ink-soft);font-family:"Instrument Sans",sans-serif;font-size:.85rem;font-weight:500;margin-left:.5rem;letter-spacing:0}
+  .search{margin-left:auto;display:flex;align-items:center;gap:.5rem;flex:1 1 14rem;max-width:22rem}
+  .search label{position:absolute;left:-9999px}
+  .search input{
+    width:100%;font:inherit;font-size:.95rem;color:var(--ink);
+    padding:.5rem .7rem;background:#fff;
+    border:1px solid var(--rule);border-radius:var(--radius);
+  }
+  .search input::placeholder{color:var(--ink-soft)}
+  .clear{
+    font:inherit;font-size:.85rem;background:none;border:0;color:var(--pine);
+    cursor:pointer;padding:.3rem;display:none;
+  }
+  .clear[hidden]{display:none}
+  .clear.on{display:inline}
+
+  /* ---------- shell ---------- */
+  .shell{display:grid;grid-template-columns:1fr;gap:0;max-width:1180px;margin:0 auto}
+  @media (min-width:62rem){
+    .shell{grid-template-columns:15rem 1fr;gap:clamp(2rem,5vw,4rem);padding-right:2rem}
+  }
+
+  /* ---------- contents ---------- */
+  .toc{padding:.8rem clamp(1rem,4vw,2.5rem);border-bottom:1px solid var(--rule);overflow-x:auto}
+  .toc ol{display:flex;gap:.4rem;list-style:none;margin:0;padding:0}
+  .toc a{
+    display:block;white-space:nowrap;text-decoration:none;color:var(--ink-soft);
+    font-size:.9rem;font-weight:500;padding:.35rem .7rem;
+    border:1px solid var(--rule);border-radius:999px;background:#fff;
+  }
+  .toc a[aria-current="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+  @media (min-width:62rem){
+    .toc{position:sticky;top:4.1rem;align-self:start;max-height:calc(100vh - 5rem);
+      border-bottom:0;padding:3rem 0 2rem 2.5rem;overflow:visible}
+    .toc ol{display:block}
+    .toc li+li{margin-top:.1rem}
+    .toc a{
+      border:0;border-left:2px solid var(--rule);border-radius:0;background:none;
+      padding:.4rem 0 .4rem .8rem;white-space:normal;
+    }
+    .toc a[aria-current="true"]{background:none;color:var(--ink);border-left-color:var(--pine);font-weight:600}
+  }
+  .toc h2{font-size:.8rem;font-family:"Instrument Sans",sans-serif;font-weight:600;color:var(--ink-soft);margin-bottom:.6rem;display:none}
+  @media (min-width:62rem){.toc h2{display:block}}
+
+  main{padding:0 clamp(1rem,4vw,2.5rem) 5rem;min-width:0}
+  @media (min-width:62rem){main{padding-left:0;padding-right:0}}
+
+  /* ---------- hero ---------- */
+  .hero{padding:clamp(2.2rem,6vw,4rem) 0 2.5rem;border-bottom:1px solid var(--rule)}
+  h1{
+    font-size:clamp(2.3rem,7vw,3.9rem);
+    font-variation-settings:"SOFT" 70,"WONK" 1;
+    letter-spacing:-.02em;max-width:22ch;
+  }
+  .lead{font-size:clamp(1.05rem,2.4vw,1.2rem);max-width:var(--measure);margin:1.1rem 0 0;color:var(--ink)}
+
+  .note{
+    margin:1.8rem 0 0;max-width:var(--measure);
+    padding:1rem 1.1rem;background:var(--coin);
+    border-radius:var(--radius);font-size:.97rem;
+  }
+  .note b{font-weight:600}
+
+  figure{margin:2.4rem 0 0;max-width:42rem}
+  figure svg{width:100%;height:auto;display:block}
+  figcaption{font-size:.9rem;color:var(--ink-soft);margin-top:.7rem;max-width:56ch}
+
+  /* ---------- sections ---------- */
+  section{padding-top:3.2rem;scroll-margin-top:5.5rem}
+  section>h2{font-size:clamp(1.6rem,4vw,2.1rem);letter-spacing:-.015em;max-width:24ch}
+  .intro{color:var(--ink-soft);max-width:var(--measure);margin:.7rem 0 0}
+
+  /* steps */
+  .steps{list-style:none;counter-reset:s;margin:2rem 0 0;padding:0;max-width:var(--measure)}
+  .steps li{counter-increment:s;position:relative;padding:0 0 1.4rem 3.4rem;border-left:1px solid var(--rule);margin-left:1.1rem}
+  .steps li:last-child{border-left-color:transparent;padding-bottom:0}
+  .steps li::before{
+    content:counter(s);position:absolute;left:-1.15rem;top:-.15rem;
+    width:2.3rem;height:2.3rem;display:grid;place-items:center;
+    background:var(--mint);border-radius:50%;
+    font-family:Fraunces,serif;font-variation-settings:"SOFT" 70,"WONK" 1;
+    font-size:1.05rem;font-weight:600;
+  }
+  .steps h3{font-size:1.08rem;font-family:"Instrument Sans",sans-serif;font-weight:600;margin-bottom:.2rem}
+
+  /* features */
+  .feature{max-width:var(--measure);padding:1.6rem 0;border-bottom:1px dashed var(--rule)}
+  .feature:last-of-type{border-bottom:0}
+  .feature h3{font-size:1.3rem;letter-spacing:-.01em}
+  .feature ul{margin:.9rem 0 0;padding-left:1.1rem}
+  .feature li{margin:.45rem 0}
+  .feature li b{font-weight:600}
+  kbd{
+    font:inherit;font-size:.92em;font-weight:500;background:var(--paper-2);
+    border:1px solid var(--rule);border-radius:var(--radius);padding:.05em .35em;white-space:nowrap;
+  }
+
+  /* faq */
+  details{max-width:var(--measure);border-bottom:1px solid var(--rule)}
+  summary{
+    cursor:pointer;list-style:none;padding:1rem 2rem 1rem 0;position:relative;
+    font-weight:500;
+  }
+  summary::-webkit-details-marker{display:none}
+  summary::after{
+    content:"";position:absolute;right:.4rem;top:1.45rem;
+    width:.6rem;height:.6rem;border-right:1.5px solid var(--ink-soft);border-bottom:1.5px solid var(--ink-soft);
+    transform:rotate(45deg);transition:transform .18s ease;
+  }
+  details[open] summary::after{transform:rotate(-135deg)}
+  details p{margin:0 0 1.1rem;max-width:58ch;color:var(--ink)}
+  @media (prefers-reduced-motion:reduce){summary::after{transition:none}}
+
+  /* fixes */
+  .fix{max-width:var(--measure);padding:1.25rem 0 1.25rem 1.1rem;border-left:3px solid var(--mint);margin-top:1.3rem;background:linear-gradient(90deg,#fff,transparent 70%)}
+  .fix h3{font-family:"Instrument Sans",sans-serif;font-size:1.02rem;font-weight:600}
+  .fix p{margin:.4rem 0 0;color:var(--ink)}
+
+  /* support */
+  .send{max-width:var(--measure);margin:1.6rem 0 0;padding:0;list-style:none}
+  .send li{padding:.7rem 0 .7rem 1.9rem;border-bottom:1px solid var(--rule);position:relative}
+  .send li::before{content:"";position:absolute;left:.15rem;top:1.15rem;width:.7rem;height:.7rem;border:1.5px solid var(--pine);border-radius:2px}
+
+  /* search states */
+  [hidden]{display:none !important}
+  .count{margin:1.5rem 0 0;font-size:.95rem;color:var(--ink-soft)}
+  .empty{max-width:var(--measure);margin:2.5rem 0;padding:1.5rem;border:1px dashed var(--rule);border-radius:var(--radius)}
+  .empty h2{font-size:1.3rem}
+  .empty p{margin:.5rem 0 0;color:var(--ink-soft)}
+
+  footer{
+    max-width:1180px;margin:0 auto;padding:2rem clamp(1rem,4vw,2.5rem) 3rem;
+    border-top:1px solid var(--rule);color:var(--ink-soft);font-size:.92rem;
+  }
+  footer p{margin:.3rem 0;max-width:60ch}
+
+  /* one orchestrated moment: the pacing line draws itself on load */
+  @media (prefers-reduced-motion:no-preference){
+    .draw{stroke-dasharray:900;stroke-dashoffset:900;animation:draw 1.5s .35s ease-out forwards}
+    .fade{opacity:0;animation:fade .5s 1.7s ease-out forwards}
+  }
+  @keyframes draw{to{stroke-dashoffset:0}}
+  @keyframes fade{to{opacity:1}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the manual</a>
+
+<div class="bar">
+  <div class="mark">Finny<span>Student manual</span></div>
+  <div class="search">
+    <label for="q">Search the manual</label>
+    <input id="q" type="search" placeholder="Search: alerts, location, delete my data" autocomplete="off">
+    <button class="clear" id="clear" type="button">Clear</button>
+  </div>
+</div>
+
+<div class="shell">
+  <nav class="toc" aria-label="Contents">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#start">Getting started</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#faq">Questions</a></li>
+      <li><a href="#fixes">When something breaks</a></li>
+      <li><a href="#support">Getting help</a></li>
+    </ol>
+  </nav>
+
+  <main id="main">
+    <div class="hero">
+      <h1>Make the allowance last the whole week</h1>
+      <p class="lead">Finny keeps a weekly or monthly student allowance in one place: you log what you spend, it shows you where the money went, finds cheaper spots nearby, and answers budgeting questions. Every number comes from you, typed in by hand.</p>
+      <p class="note"><b>Read this first.</b> Finny is a budgeting and planning aid for students. It is not a bank, a payment processor, a lender, or a certified financial advisor. It never links to a live bank account, moves real money, or offers loans.</p>
+
+      <figure>
+        <svg viewBox="0 0 640 210" role="img" aria-labelledby="pacetitle">
+          <title id="pacetitle">A week of spending: an even pace runs straight down, while spending too fast empties the allowance by Thursday.</title>
+          <g fill="none" stroke="#c9d8cc" stroke-width="1">
+            <path d="M64 30 H604 M64 100 H604 M64 170 H604"/>
+          </g>
+          <g font-family="Instrument Sans, sans-serif" font-size="15" fill="#4a6358">
+            <text x="2" y="34">full</text>
+            <text x="2" y="176">empty</text>
+            <text x="50" y="196">Mon</text><text x="134" y="196">Tue</text><text x="218" y="196">Wed</text>
+            <text x="304" y="196">Thu</text><text x="392" y="196">Fri</text><text x="476" y="196">Sat</text>
+            <text x="558" y="196">Sun</text>
+          </g>
+          <path d="M64 30 L604 170" fill="none" stroke="#0b5e35" stroke-width="2" stroke-dasharray="5 6" opacity=".75"/>
+          <path class="draw" d="M64 30 C102 52 120 66 137 72 C178 92 200 110 220 122 C255 143 282 158 305 166 C330 171 360 170 604 170"
+                fill="none" stroke="#132a22" stroke-width="3" stroke-linecap="round"/>
+          <g class="fade">
+            <circle cx="220" cy="122" r="6.5" fill="#f6c83f" stroke="#132a22" stroke-width="2"/>
+            <path d="M233 113 L296 84" stroke="#132a22" stroke-width="1.2"/>
+            <text x="302" y="82" font-family="Instrument Sans, sans-serif" font-size="16" fill="#132a22">alert: over the pace</text>
+          </g>
+        </svg>
+        <figcaption>The dotted line is an even pace through the week. The solid line is real spending. Budget alerts fire where the two part company, while there is still time to slow down.</figcaption>
+      </figure>
+    </div>
+
+    <p class="count" id="count" hidden></p>
+
+    <section id="start" aria-labelledby="start-h">
+      <h2 id="start-h">Getting started</h2>
+      <p class="intro">Four steps, about five minutes. You can change any of it later.</p>
+      <ol class="steps">
+        <li data-searchable>
+          <h3>Open the app and read the consent screen</h3>
+          Work through the welcome screen and the data-privacy notice, then pick which optional permissions and features you agree to. Nothing optional turns on by itself.
+        </li>
+        <li data-searchable>
+          <h3>Set your allowance and categories</h3>
+          Enter the allowance or budget you have for the period, then choose categories — food, transport, study materials, personal and leisure — and the threshold where each one should warn you.
+        </li>
+        <li data-searchable>
+          <h3>Log your first expense</h3>
+          Tap <kbd>+ Add expense</kbd>, type the amount, pick a category, and save. A coffee counts; small entries are what make the dashboard honest.
+        </li>
+        <li data-searchable>
+          <h3>Look around the dashboard</h3>
+          Open the dashboard for your spending breakdown, ask the assistant a budgeting question, or browse budget-friendly spots near you.
+        </li>
+      </ol>
+    </section>
+
+    <section id="features" aria-labelledby="features-h">
+      <h2 id="features-h">Features</h2>
+      <p class="intro">What each part of the app does, and how to use it.</p>
+
+      <div class="feature" data-searchable>
+        <h3>Expenses and allowance</h3>
+        <ul>
+          <li><b>Set your allowance.</b> Open <kbd>Budget / Allowance</kbd>, enter the starting amount for the period, and save.</li>
+          <li><b>Log an expense.</b> Tap <kbd>+ Add expense</kbd>, type the amount, choose a category, add a note or a date if you want, and save.</li>
+          <li><b>Set alerts.</b> Give a category or the whole allowance a limit, and Finny warns you as you get close and again when you cross it.</li>
+        </ul>
+      </div>
+
+      <div class="feature" data-searchable>
+        <h3>Budget-friendly places nearby</h3>
+        <ul>
+          <li><b>Find somewhere.</b> Open <kbd>Location finder</kbd> and allow location access when it asks.</li>
+          <li><b>Filter by what is left.</b> Set a maximum you want to spend, and the list narrows to places that fit it.</li>
+          <li><b>Check before you go.</b> Distance, price-range notes and basic details are on each spot, so an evening out does not eat the rest of the week.</li>
+        </ul>
+      </div>
+
+      <div class="feature" data-searchable>
+        <h3>The AI budget assistant</h3>
+        <ul>
+          <li><b>Ask about your own numbers.</b> How much is left in food this week, how to pace what remains, where to cut back on things you do not need.</li>
+          <li><b>Read the alerts and summaries.</b> They catch a fast week early, while slowing down still works.</li>
+          <li><b>Keep your own judgment.</b> Answers are budgeting guidance, not guaranteed financial, legal or investment advice. Check any figure against your logged expenses.</li>
+        </ul>
+      </div>
+
+      <div class="feature" data-searchable>
+        <h3>Dashboard and charts</h3>
+        <ul>
+          <li><b>See where it went.</b> The dashboard compares categories against each other for the current period.</li>
+          <li><b>Watch the balance.</b> Remaining allowance against total logged spending tells you the pace for the days left.</li>
+        </ul>
+      </div>
+
+      <div class="feature" data-searchable>
+        <h3>Privacy, consent and your data</h3>
+        <ul>
+          <li><b>Review or withdraw consent.</b> <kbd>Settings</kbd> → <kbd>Privacy &amp; Consent</kbd>, any time, for everything you agreed to.</li>
+          <li><b>Delete your data.</b> <kbd>Settings</kbd> → <kbd>Privacy &amp; Data</kbd> → <kbd>Delete data</kbd>, then confirm the request.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="faq" aria-labelledby="faq-h">
+      <h2 id="faq-h">Questions students ask</h2>
+      <details data-searchable>
+        <summary>Does Finny connect to my bank account, CliQ or e-wallet?</summary>
+        <p>No. You type in your allowance and your expenses yourself. Nothing is linked to a live account and no real money moves through the app.</p>
+      </details>
+      <details data-searchable>
+        <summary>Is this certified financial advice?</summary>
+        <p>No. Finny organises a student budget, tracks spending and offers general budgeting tips. It is not a licensed financial advisor, a bank or a lender.</p>
+      </details>
+      <details data-searchable>
+        <summary>Can I change my budget or a category limit halfway through the week?</summary>
+        <p>Yes. Edit your allowance or limits in budget or category settings whenever you like. Your remaining balance and your alerts recalculate from the new numbers.</p>
+      </details>
+      <details data-searchable>
+        <summary>What happens if I withdraw consent or delete my data?</summary>
+        <p>Both live in privacy settings, and both are yours to trigger. Withdrawing a permission switches off whatever depends on it — location suggestions, for instance, or assistant prompts — and deleting your data removes what the app has stored for you.</p>
+      </details>
+    </section>
+
+    <section id="fixes" aria-labelledby="fixes-h">
+      <h2 id="fixes-h">When something breaks</h2>
+      <p class="intro">Six things that go wrong, and what to check first.</p>
+
+      <div class="fix" data-searchable>
+        <h3>An expense did not save, or the amount is wrong</h3>
+        <p>Check that the amount field holds a number and nothing else — a stray letter or symbol blocks the save — then save again. For a wrong amount already in, open the entry from your expense list and edit or delete it there.</p>
+      </div>
+      <div class="fix" data-searchable>
+        <h3>Spending alerts never arrive</h3>
+        <p>Make sure that category or the overall allowance actually has a limit set, and that notifications are on both inside Finny and in your phone's own notification settings.</p>
+      </div>
+      <div class="fix" data-searchable>
+        <h3>The location finder shows nothing, or the wrong area</h3>
+        <p>Turn on GPS and confirm Finny has location permission. If the list is still empty, widen the budget filter or move and refresh the map.</p>
+      </div>
+      <div class="fix" data-searchable>
+        <h3>The assistant gives a vague or off-target answer</h3>
+        <p>Ask something narrower — name the category and what you have left. Then check any arithmetic it gives you against the expenses on your dashboard.</p>
+      </div>
+      <div class="fix" data-searchable>
+        <h3>The dashboard looks out of date or half empty</h3>
+        <p>Confirm your recent expenses were saved to the active budget period and to a category, then refresh or reopen the dashboard.</p>
+      </div>
+      <div class="fix" data-searchable>
+        <h3>You cannot find the privacy, consent or deletion screens</h3>
+        <p>They sit under the main menu or the <kbd>Settings</kbd> tab, listed as privacy, consent, or account and data controls. If a screen will not respond, close the app, reopen it, and try once more.</p>
+      </div>
+    </section>
+
+    <section id="support" aria-labelledby="support-h">
+      <h2 id="support-h">Getting help</h2>
+      <p class="intro">If your problem is not above, or you want to tell the team a step here is wrong, reach the Finny project team through your course or project support channel. Send these three things and you will get a useful answer faster.</p>
+      <ul class="send">
+        <li data-searchable>Which screen or feature you were on: expenses, location finder, assistant, dashboard or privacy settings.</li>
+        <li data-searchable>What you expected to happen, and what happened instead.</li>
+        <li data-searchable>A screenshot, if it helps — with anything personal cropped out.</li>
+      </ul>
+    </section>
+
+    <div class="empty" id="empty" hidden>
+      <h2>Nothing matched that</h2>
+      <p>Try a single word, like alerts, location, consent or dashboard. If the manual really does not cover it, send it to the project team with the three details under Getting help.</p>
+    </div>
+  </main>
+</div>
+
+<footer>
+  <p>This manual covers the Finny student budgeting project: the app's features, its privacy controls, and everyday troubleshooting.</p>
+  <p>Finny is a student project and an educational budgeting aid, not a financial service.</p>
+</footer>
+
+<script>
+(function(){
+  var q = document.getElementById('q');
+  var clear = document.getElementById('clear');
+  var count = document.getElementById('count');
+  var empty = document.getElementById('empty');
+  var sections = Array.prototype.slice.call(document.querySelectorAll('main section'));
+  var items = Array.prototype.slice.call(document.querySelectorAll('[data-searchable]'));
+  var hero = document.querySelector('.hero');
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+
+  items.forEach(function(el){ el.dataset.text = el.textContent.toLowerCase().replace(/\s+/g,' '); });
+
+  function run(){
+    var term = q.value.trim().toLowerCase();
+    clear.classList.toggle('on', term.length > 0);
+
+    if(!term){
+      items.forEach(function(el){ el.hidden = false; });
+      sections.forEach(function(s){ s.hidden = false; });
+      hero.hidden = false; count.hidden = true; empty.hidden = true;
+      return;
+    }
+
+    var hits = 0;
+    items.forEach(function(el){
+      var match = el.dataset.text.indexOf(term) !== -1;
+      el.hidden = !match;
+      if(match){
+        hits++;
+        if(el.tagName === 'DETAILS'){ el.open = true; }
+      }
+    });
+    sections.forEach(function(s){
+      var visible = s.querySelector('[data-searchable]:not([hidden])');
+      s.hidden = !visible;
+    });
+    hero.hidden = true;
+    count.hidden = false;
+    count.textContent = hits === 1 ? '1 part of the manual mentions “' + q.value.trim() + '”.'
+                                   : hits + ' parts of the manual mention “' + q.value.trim() + '”.';
+    empty.hidden = hits > 0;
+  }
+
+  q.addEventListener('input', run);
+  clear.addEventListener('click', function(){ q.value = ''; run(); q.focus(); });
+  q.addEventListener('keydown', function(e){ if(e.key === 'Escape'){ q.value = ''; run(); } });
+
+  // mark the section you are reading in the contents
+  if('IntersectionObserver' in window){
+    var seen = new Map();
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ seen.set(en.target.id, en.isIntersecting ? en.intersectionRatio : 0); });
+      var best = null, top = 0;
+      seen.forEach(function(v, k){ if(v > top){ top = v; best = k; } });
+      links.forEach(function(a){
+        a.setAttribute('aria-current', best && a.getAttribute('href') === '#' + best ? 'true' : 'false');
+      });
+    }, {rootMargin:'-20% 0px -60% 0px', threshold:[0,.1,.5,1]});
+    sections.forEach(function(s){ io.observe(s); });
+  }
+})();
+</script>
+</body>
+</html>
