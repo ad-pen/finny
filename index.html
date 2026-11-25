@@ -143,6 +143,19 @@
 
   /* features */
   .feature{max-width:var(--measure);padding:1.6rem 0;border-bottom:1px dashed var(--rule)}
+  @media (min-width:52rem){
+    .feature{
+      display:grid;grid-template-columns:minmax(0,1fr) 13rem;
+      gap:clamp(1.5rem,4vw,2.5rem);align-items:start;max-width:48rem;
+    }
+  }
+  .feature>div{min-width:0}
+
+  /* app screens */
+  .shot{margin:1.4rem 0 0;max-width:13rem}
+  @media (min-width:52rem){.shot{margin:0}}
+  .shot svg{width:100%;height:auto;display:block}
+  .shot figcaption{font-size:.84rem;margin-top:.5rem;max-width:none}
   .feature:last-of-type{border-bottom:0}
   .feature h3{font-size:1.3rem;letter-spacing:-.01em}
   .feature ul{margin:.9rem 0 0;padding-left:1.1rem}
@@ -169,10 +182,11 @@
   details p{margin:0 0 1.1rem;max-width:58ch;color:var(--ink)}
   @media (prefers-reduced-motion:reduce){summary::after{transition:none}}
 
-  /* fixes */
-  .fix{max-width:var(--measure);padding:1.25rem 0 1.25rem 1.1rem;border-left:3px solid var(--mint);margin-top:1.3rem;background:linear-gradient(90deg,#fff,transparent 70%)}
-  .fix h3{font-family:"Instrument Sans",sans-serif;font-size:1.02rem;font-weight:600}
-  .fix p{margin:.4rem 0 0;color:var(--ink)}
+  /* fixes: same pull-down as the questions, with a mint rail */
+  #fixes details{border-left:3px solid var(--mint)}
+  #fixes summary{padding-left:1rem}
+  #fixes summary::after{right:.7rem}
+  #fixes details p{margin-left:1rem}
 
   /* support */
   .send{max-width:var(--measure);margin:1.6rem 0 0;padding:0;list-style:none}
@@ -217,8 +231,8 @@
   <nav class="toc" aria-label="Contents">
     <h2>Contents</h2>
     <ol>
-      <li><a href="#start">Getting started</a></li>
       <li><a href="#features">Features</a></li>
+      <li><a href="#start">Getting started</a></li>
       <li><a href="#faq">Questions</a></li>
       <li><a href="#fixes">When something breaks</a></li>
       <li><a href="#support">Getting help</a></li>
@@ -259,6 +273,214 @@
 
     <p class="count" id="count" hidden></p>
 
+    <section id="features" aria-labelledby="features-h">
+      <h2 id="features-h">Features</h2>
+      <p class="intro">What each part of the app does, and how to use it. The screens beside each part are illustrations of its layout, not live data.</p>
+
+      <div class="feature" data-searchable>
+        <div>
+          <h3>Expenses and allowance</h3>
+          <ul>
+            <li><b>Set your allowance.</b> Open <kbd>Budget / Allowance</kbd>, enter the starting amount for the period, and save.</li>
+            <li><b>Log an expense.</b> Tap <kbd>+ Add expense</kbd>, type the amount, choose a category, add a note or a date if you want, and save.</li>
+            <li><b>Set alerts.</b> Give a category or the whole allowance a limit, and Finny warns you as you get close and again when you cross it.</li>
+          </ul>
+        </div>
+        <figure class="shot">
+          <svg viewBox="0 0 200 380" role="img" aria-labelledby="shot-expense">
+            <title id="shot-expense">The add-expense screen: an amount of 3.50 JD, the Food category chosen, a note, a Save button, and a bar showing what is left this week.</title>
+            <rect x="4" y="4" width="192" height="372" rx="18" fill="#fff" stroke="#132a22" stroke-width="2"/>
+            <rect x="12" y="12" width="176" height="356" rx="12" fill="#f4f7f3"/>
+            <rect x="78" y="18" width="44" height="5" rx="2.5" fill="#c9d8cc"/>
+            <rect x="24" y="64" width="152" height="48" rx="4" fill="#fff" stroke="#c9d8cc"/>
+            <rect x="24" y="138" width="46" height="22" rx="11" fill="#0b5e35"/>
+            <rect x="76" y="138" width="66" height="22" rx="11" fill="#fff" stroke="#c9d8cc"/>
+            <rect x="24" y="166" width="52" height="22" rx="11" fill="#fff" stroke="#c9d8cc"/>
+            <rect x="24" y="196" width="152" height="30" rx="4" fill="#fff" stroke="#c9d8cc"/>
+            <rect x="24" y="242" width="152" height="30" rx="4" fill="#0b5e35"/>
+            <rect x="24" y="312" width="152" height="9" rx="4.5" fill="#e7eee7"/>
+            <rect x="24" y="312" width="93" height="9" rx="4.5" fill="#9ddfae"/>
+            <g font-family="Instrument Sans, sans-serif" fill="#132a22">
+              <text x="24" y="50" font-size="13" font-weight="600">Add expense</text>
+              <text x="34" y="82" font-size="9" fill="#4a6358">Amount</text>
+              <text x="34" y="102" font-size="17" font-weight="600">3.50 JD</text>
+              <text x="24" y="130" font-size="9" fill="#4a6358">Category</text>
+              <text x="32" y="153" font-size="10" fill="#f4f7f3">Food</text>
+              <text x="84" y="153" font-size="10" fill="#4a6358">Transport</text>
+              <text x="32" y="181" font-size="10" fill="#4a6358">Study</text>
+              <text x="34" y="215" font-size="10" fill="#4a6358">Note: campus caf&#233;</text>
+              <text x="100" y="262" font-size="11" font-weight="600" fill="#f4f7f3" text-anchor="middle">Save</text>
+              <text x="24" y="304" font-size="9" fill="#4a6358">Left this week</text>
+              <text x="24" y="340" font-size="11" font-weight="600">18.40 JD of 30.00</text>
+            </g>
+          </svg>
+          <figcaption>Add expense: amount, category, note, save.</figcaption>
+        </figure>
+      </div>
+
+      <div class="feature" data-searchable>
+        <div>
+          <h3>Budget-friendly places nearby</h3>
+          <ul>
+            <li><b>Find somewhere.</b> Open <kbd>Location finder</kbd> and allow location access when it asks.</li>
+            <li><b>Filter by what is left.</b> Set a maximum you want to spend, and the list narrows to places that fit it.</li>
+            <li><b>Check before you go.</b> Distance, price-range notes and basic details are on each spot, so an evening out does not eat the rest of the week.</li>
+          </ul>
+        </div>
+        <figure class="shot">
+          <svg viewBox="0 0 200 380" role="img" aria-labelledby="shot-places">
+            <title id="shot-places">The location finder: a map with three pins, a filter set to a maximum of 5 JD, and a list of nearby places with distance and price range.</title>
+            <rect x="4" y="4" width="192" height="372" rx="18" fill="#fff" stroke="#132a22" stroke-width="2"/>
+            <rect x="12" y="12" width="176" height="356" rx="12" fill="#f4f7f3"/>
+            <rect x="78" y="18" width="44" height="5" rx="2.5" fill="#c9d8cc"/>
+            <rect x="112" y="38" width="64" height="20" rx="10" fill="#f6c83f"/>
+            <rect x="24" y="68" width="152" height="140" rx="6" fill="#e7eee7" stroke="#c9d8cc"/>
+            <g stroke="#f4f7f3" stroke-width="7" stroke-linecap="round">
+              <path d="M24 130 H176"/><path d="M96 68 V208"/>
+            </g>
+            <g fill="#9c2f52">
+              <path d="M62 96c0-6 4.6-10.5 10-10.5S82 90 82 96c0 7.5-10 18-10 18S62 103.5 62 96z"/>
+              <path d="M118 150c0-6 4.6-10.5 10-10.5s10 4.5 10 10.5c0 7.5-10 18-10 18s-10-10.5-10-18z"/>
+            </g>
+            <circle cx="72" cy="95" r="3.4" fill="#fff"/>
+            <circle cx="128" cy="149" r="3.4" fill="#fff"/>
+            <circle cx="96" cy="170" r="6" fill="#0b5e35" stroke="#fff" stroke-width="2"/>
+            <g stroke="#c9d8cc" stroke-width="1">
+              <path d="M24 262 H176 M24 302 H176"/>
+            </g>
+            <g font-family="Instrument Sans, sans-serif" fill="#132a22">
+              <text x="24" y="52" font-size="13" font-weight="600">Nearby</text>
+              <text x="144" y="52" font-size="9" font-weight="600" text-anchor="middle">Max 5 JD</text>
+              <text x="24" y="234" font-size="11" font-weight="600">Student canteen</text>
+              <text x="24" y="248" font-size="9" fill="#4a6358">0.4 km &#183; 1&#8211;3 JD</text>
+              <text x="24" y="282" font-size="11" font-weight="600">Corner falafel</text>
+              <text x="24" y="296" font-size="9" fill="#4a6358">0.9 km &#183; 1&#8211;2 JD</text>
+              <text x="24" y="326" font-size="11" font-weight="600">Library caf&#233;</text>
+              <text x="24" y="340" font-size="9" fill="#4a6358">1.2 km &#183; 3&#8211;5 JD</text>
+            </g>
+          </svg>
+          <figcaption>Location finder: pins, a spending cap, prices.</figcaption>
+        </figure>
+      </div>
+
+      <div class="feature" data-searchable>
+        <div>
+          <h3>The AI budget assistant</h3>
+          <ul>
+            <li><b>Ask about your own numbers.</b> How much is left in food this week, how to pace what remains, where to cut back on things you do not need.</li>
+            <li><b>Read the alerts and summaries.</b> They catch a fast week early, while slowing down still works.</li>
+            <li><b>Keep your own judgment.</b> Answers are budgeting guidance, not guaranteed financial, legal or investment advice. Check any figure against your logged expenses.</li>
+          </ul>
+        </div>
+        <figure class="shot">
+          <svg viewBox="0 0 200 380" role="img" aria-labelledby="shot-assistant">
+            <title id="shot-assistant">The assistant screen: a question asking how much is left for food, an answer of 4.20 JD over four days, and an alert card saying food is over the pace.</title>
+            <rect x="4" y="4" width="192" height="372" rx="18" fill="#fff" stroke="#132a22" stroke-width="2"/>
+            <rect x="12" y="12" width="176" height="356" rx="12" fill="#f4f7f3"/>
+            <rect x="78" y="18" width="44" height="5" rx="2.5" fill="#c9d8cc"/>
+            <rect x="60" y="64" width="116" height="40" rx="10" fill="#0b5e35"/>
+            <rect x="24" y="116" width="142" height="62" rx="10" fill="#fff" stroke="#c9d8cc"/>
+            <rect x="24" y="196" width="152" height="48" rx="4" fill="#f6c83f"/>
+            <rect x="24" y="318" width="122" height="28" rx="14" fill="#fff" stroke="#c9d8cc"/>
+            <circle cx="162" cy="332" r="14" fill="#0b5e35"/>
+            <path d="M157 332 h9 m-3.5 -3.5 L166 332 l-3.5 3.5" fill="none" stroke="#f4f7f3" stroke-width="1.6" stroke-linecap="round"/>
+            <g font-family="Instrument Sans, sans-serif" fill="#132a22">
+              <text x="24" y="50" font-size="13" font-weight="600">Assistant</text>
+              <text x="70" y="82" font-size="10" fill="#f4f7f3">How much is left for</text>
+              <text x="70" y="95" font-size="10" fill="#f4f7f3">food this week?</text>
+              <text x="34" y="135" font-size="10">4.20 JD, with four days</text>
+              <text x="34" y="150" font-size="10">to go &#8212; about 1.05 JD</text>
+              <text x="34" y="165" font-size="10">a day if you even it out.</text>
+              <text x="34" y="216" font-size="10" font-weight="600">Over the pace</text>
+              <text x="34" y="232" font-size="9" fill="#132a22">Food: 72% spent by day 3.</text>
+              <text x="36" y="336" font-size="9" fill="#4a6358">Ask a question</text>
+            </g>
+          </svg>
+          <figcaption>Assistant: your numbers, and an early warning.</figcaption>
+        </figure>
+      </div>
+
+      <div class="feature" data-searchable>
+        <div>
+          <h3>Dashboard and charts</h3>
+          <ul>
+            <li><b>See where it went.</b> The dashboard compares categories against each other for the current period.</li>
+            <li><b>Watch the balance.</b> Remaining allowance against total logged spending tells you the pace for the days left.</li>
+          </ul>
+        </div>
+        <figure class="shot">
+          <svg viewBox="0 0 200 380" role="img" aria-labelledby="shot-dash">
+            <title id="shot-dash">The dashboard: 18.40 JD left of 30.00, a balance bar, and category bars for food, transport, study materials and leisure.</title>
+            <rect x="4" y="4" width="192" height="372" rx="18" fill="#fff" stroke="#132a22" stroke-width="2"/>
+            <rect x="12" y="12" width="176" height="356" rx="12" fill="#f4f7f3"/>
+            <rect x="78" y="18" width="44" height="5" rx="2.5" fill="#c9d8cc"/>
+            <rect x="24" y="106" width="152" height="9" rx="4.5" fill="#e7eee7"/>
+            <rect x="24" y="106" width="93" height="9" rx="4.5" fill="#9ddfae"/>
+            <rect x="24" y="158" width="112" height="10" rx="3" fill="#0b5e35"/>
+            <rect x="24" y="194" width="34" height="10" rx="3" fill="#9ddfae"/>
+            <rect x="24" y="230" width="16" height="10" rx="3" fill="#f6c83f"/>
+            <rect x="24" y="266" width="5" height="10" rx="2.5" fill="#9c2f52"/>
+            <g font-family="Instrument Sans, sans-serif" fill="#132a22">
+              <text x="24" y="50" font-size="13" font-weight="600">This week</text>
+              <text x="24" y="84" font-size="18" font-weight="600">18.40 JD</text>
+              <text x="24" y="98" font-size="9" fill="#4a6358">left of 30.00</text>
+              <text x="24" y="150" font-size="10">Food</text>
+              <text x="176" y="167" font-size="9" fill="#4a6358" text-anchor="end">7.80</text>
+              <text x="24" y="186" font-size="10">Transport</text>
+              <text x="176" y="203" font-size="9" fill="#4a6358" text-anchor="end">2.40</text>
+              <text x="24" y="222" font-size="10">Study materials</text>
+              <text x="176" y="239" font-size="9" fill="#4a6358" text-anchor="end">1.10</text>
+              <text x="24" y="258" font-size="10">Leisure</text>
+              <text x="176" y="275" font-size="9" fill="#4a6358" text-anchor="end">0.30</text>
+              <text x="24" y="316" font-size="9" fill="#4a6358">Day 3 of 7 &#183; 11.60 JD logged</text>
+            </g>
+          </svg>
+          <figcaption>Dashboard: the balance, then where it went.</figcaption>
+        </figure>
+      </div>
+
+      <div class="feature" data-searchable>
+        <div>
+          <h3>Privacy, consent and your data</h3>
+          <ul>
+            <li><b>Review or withdraw consent.</b> <kbd>Settings</kbd> &#8594; <kbd>Privacy &amp; Consent</kbd>, any time, for everything you agreed to.</li>
+            <li><b>Delete your data.</b> <kbd>Settings</kbd> &#8594; <kbd>Privacy &amp; Data</kbd> &#8594; <kbd>Delete data</kbd>, then confirm the request.</li>
+          </ul>
+        </div>
+        <figure class="shot">
+          <svg viewBox="0 0 200 380" role="img" aria-labelledby="shot-privacy">
+            <title id="shot-privacy">The privacy and consent screen: switches for location access, notifications, assistant tips and usage analytics, and a button to delete your data.</title>
+            <rect x="4" y="4" width="192" height="372" rx="18" fill="#fff" stroke="#132a22" stroke-width="2"/>
+            <rect x="12" y="12" width="176" height="356" rx="12" fill="#f4f7f3"/>
+            <rect x="78" y="18" width="44" height="5" rx="2.5" fill="#c9d8cc"/>
+            <rect x="142" y="71" width="34" height="18" rx="9" fill="#0b5e35"/>
+            <circle cx="167" cy="80" r="6.5" fill="#fff"/>
+            <rect x="142" y="107" width="34" height="18" rx="9" fill="#0b5e35"/>
+            <circle cx="167" cy="116" r="6.5" fill="#fff"/>
+            <rect x="142" y="143" width="34" height="18" rx="9" fill="#e7eee7" stroke="#c9d8cc"/>
+            <circle cx="151" cy="152" r="6.5" fill="#fff" stroke="#c9d8cc"/>
+            <rect x="142" y="179" width="34" height="18" rx="9" fill="#e7eee7" stroke="#c9d8cc"/>
+            <circle cx="151" cy="188" r="6.5" fill="#fff" stroke="#c9d8cc"/>
+            <g stroke="#c9d8cc" stroke-width="1">
+              <path d="M24 98 H176 M24 134 H176 M24 170 H176"/>
+            </g>
+            <rect x="24" y="238" width="152" height="30" rx="4" fill="#fff" stroke="#9c2f52" stroke-width="1.5"/>
+            <g font-family="Instrument Sans, sans-serif" fill="#132a22">
+              <text x="24" y="50" font-size="12" font-weight="600">Privacy &amp; Consent</text>
+              <text x="24" y="84" font-size="10">Location access</text>
+              <text x="24" y="120" font-size="10">Notifications</text>
+              <text x="24" y="156" font-size="10">Assistant tips</text>
+              <text x="24" y="192" font-size="10">Usage analytics</text>
+              <text x="100" y="258" font-size="11" font-weight="600" fill="#9c2f52" text-anchor="middle">Delete my data</text>
+              <text x="24" y="292" font-size="9" fill="#4a6358">Withdraw any of these</text>
+              <text x="24" y="306" font-size="9" fill="#4a6358">whenever you like.</text>
+            </g>
+          </svg>
+          <figcaption>Privacy: every switch, and the delete button.</figcaption>
+        </figure>
+      </div>
+    </section>
+
     <section id="start" aria-labelledby="start-h">
       <h2 id="start-h">Getting started</h2>
       <p class="intro">Four steps, about five minutes. You can change any of it later.</p>
@@ -280,54 +502,6 @@
           Open the dashboard for your spending breakdown, ask the assistant a budgeting question, or browse budget-friendly spots near you.
         </li>
       </ol>
-    </section>
-
-    <section id="features" aria-labelledby="features-h">
-      <h2 id="features-h">Features</h2>
-      <p class="intro">What each part of the app does, and how to use it.</p>
-
-      <div class="feature" data-searchable>
-        <h3>Expenses and allowance</h3>
-        <ul>
-          <li><b>Set your allowance.</b> Open <kbd>Budget / Allowance</kbd>, enter the starting amount for the period, and save.</li>
-          <li><b>Log an expense.</b> Tap <kbd>+ Add expense</kbd>, type the amount, choose a category, add a note or a date if you want, and save.</li>
-          <li><b>Set alerts.</b> Give a category or the whole allowance a limit, and Finny warns you as you get close and again when you cross it.</li>
-        </ul>
-      </div>
-
-      <div class="feature" data-searchable>
-        <h3>Budget-friendly places nearby</h3>
-        <ul>
-          <li><b>Find somewhere.</b> Open <kbd>Location finder</kbd> and allow location access when it asks.</li>
-          <li><b>Filter by what is left.</b> Set a maximum you want to spend, and the list narrows to places that fit it.</li>
-          <li><b>Check before you go.</b> Distance, price-range notes and basic details are on each spot, so an evening out does not eat the rest of the week.</li>
-        </ul>
-      </div>
-
-      <div class="feature" data-searchable>
-        <h3>The AI budget assistant</h3>
-        <ul>
-          <li><b>Ask about your own numbers.</b> How much is left in food this week, how to pace what remains, where to cut back on things you do not need.</li>
-          <li><b>Read the alerts and summaries.</b> They catch a fast week early, while slowing down still works.</li>
-          <li><b>Keep your own judgment.</b> Answers are budgeting guidance, not guaranteed financial, legal or investment advice. Check any figure against your logged expenses.</li>
-        </ul>
-      </div>
-
-      <div class="feature" data-searchable>
-        <h3>Dashboard and charts</h3>
-        <ul>
-          <li><b>See where it went.</b> The dashboard compares categories against each other for the current period.</li>
-          <li><b>Watch the balance.</b> Remaining allowance against total logged spending tells you the pace for the days left.</li>
-        </ul>
-      </div>
-
-      <div class="feature" data-searchable>
-        <h3>Privacy, consent and your data</h3>
-        <ul>
-          <li><b>Review or withdraw consent.</b> <kbd>Settings</kbd> → <kbd>Privacy &amp; Consent</kbd>, any time, for everything you agreed to.</li>
-          <li><b>Delete your data.</b> <kbd>Settings</kbd> → <kbd>Privacy &amp; Data</kbd> → <kbd>Delete data</kbd>, then confirm the request.</li>
-        </ul>
-      </div>
     </section>
 
     <section id="faq" aria-labelledby="faq-h">
@@ -352,32 +526,32 @@
 
     <section id="fixes" aria-labelledby="fixes-h">
       <h2 id="fixes-h">When something breaks</h2>
-      <p class="intro">Six things that go wrong, and what to check first.</p>
+      <p class="intro">Six things that go wrong, and what to check first. Open the one that matches.</p>
 
-      <div class="fix" data-searchable>
-        <h3>An expense did not save, or the amount is wrong</h3>
-        <p>Check that the amount field holds a number and nothing else — a stray letter or symbol blocks the save — then save again. For a wrong amount already in, open the entry from your expense list and edit or delete it there.</p>
-      </div>
-      <div class="fix" data-searchable>
-        <h3>Spending alerts never arrive</h3>
+      <details data-searchable>
+        <summary>An expense did not save, or the amount is wrong</summary>
+        <p>Check that the amount field holds a number and nothing else &#8212; a stray letter or symbol blocks the save &#8212; then save again. For a wrong amount already in, open the entry from your expense list and edit or delete it there.</p>
+      </details>
+      <details data-searchable>
+        <summary>Spending alerts never arrive</summary>
         <p>Make sure that category or the overall allowance actually has a limit set, and that notifications are on both inside Finny and in your phone's own notification settings.</p>
-      </div>
-      <div class="fix" data-searchable>
-        <h3>The location finder shows nothing, or the wrong area</h3>
+      </details>
+      <details data-searchable>
+        <summary>The location finder shows nothing, or the wrong area</summary>
         <p>Turn on GPS and confirm Finny has location permission. If the list is still empty, widen the budget filter or move and refresh the map.</p>
-      </div>
-      <div class="fix" data-searchable>
-        <h3>The assistant gives a vague or off-target answer</h3>
-        <p>Ask something narrower — name the category and what you have left. Then check any arithmetic it gives you against the expenses on your dashboard.</p>
-      </div>
-      <div class="fix" data-searchable>
-        <h3>The dashboard looks out of date or half empty</h3>
+      </details>
+      <details data-searchable>
+        <summary>The assistant gives a vague or off-target answer</summary>
+        <p>Ask something narrower &#8212; name the category and what you have left. Then check any arithmetic it gives you against the expenses on your dashboard.</p>
+      </details>
+      <details data-searchable>
+        <summary>The dashboard looks out of date or half empty</summary>
         <p>Confirm your recent expenses were saved to the active budget period and to a category, then refresh or reopen the dashboard.</p>
-      </div>
-      <div class="fix" data-searchable>
-        <h3>You cannot find the privacy, consent or deletion screens</h3>
+      </details>
+      <details data-searchable>
+        <summary>You cannot find the privacy, consent or deletion screens</summary>
         <p>They sit under the main menu or the <kbd>Settings</kbd> tab, listed as privacy, consent, or account and data controls. If a screen will not respond, close the app, reopen it, and try once more.</p>
-      </div>
+      </details>
     </section>
 
     <section id="support" aria-labelledby="support-h">
